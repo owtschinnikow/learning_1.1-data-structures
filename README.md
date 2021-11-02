@@ -1,6 +1,1 @@
-# Test_1
-test_file
-
-ver 1
-
-Hello world
+# learning_1.1 data structures
