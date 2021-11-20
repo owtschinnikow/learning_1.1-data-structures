@@ -18,6 +18,7 @@ Sample Output 2:
 2 5
 
 0 <= m <= 4n
+https://neerc.ifmo.ru/wiki/index.php?title=%D0%94%D0%B2%D0%BE%D0%B8%D1%87%D0%BD%D0%B0%D1%8F_%D0%BA%D1%83%D1%87%D0%B0#.D0.A1.D0.BC._.D1.82.D0.B0.D0.BA.D0.B6.D0.B5
 """
 
 import sys
@@ -92,6 +93,44 @@ def sift_up(i:int, a_list:list):
     return a_list
 
 
+def extract_min(a_list:list):
+    """
+    Функция выполняет извлечение минимального элемента из кучи
+    :param a_list:
+    :return:
+    >>> extract_min([1, 2, 3, 4, 5])
+    (1, [2, 4, 3, 5])
+    """
+    min = a_list[0]
+    a_list[0] = a_list.pop()
+    sift_down(0, a_list)
+    return min, a_list
+
+
+def insert(key:int, a_list:list):
+    """
+    Функция выполняет добавление элемента в кучу.
+    :param key:
+    :param a_list:
+    :return:
+    >>> insert(10, [1, 2, 3, 4, 5])
+    [1, 2, 3, 4, 5, 10]
+    >>> insert(1, [1, 2, 3, 4, 5])
+    [1, 2, 1, 4, 5, 3]
+    """
+    a_list.append(key)
+    sift_up(len(a_list) - 1, a_list)
+    return a_list
+
+
+a_list = [1, 2, 3, 4, 5, 9, 8, 7, 6, 10]
+b_list = []
+b_list.append = a_list.pop()
+for i in a_list:
+    insert(i, b_list)
+print(b_list)
+
+
 def main():
     """
     Функция по чтениию данных с системы
@@ -104,8 +143,8 @@ def main():
     sort_to_min_heap(n, a_list)
 
 
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(verbose=True)
-    # main()
-    # test()
+# if __name__ == '__main__':
+#     import doctest
+#     doctest.testmod(verbose=True)
+#     # main()
+#     # test()
