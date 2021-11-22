@@ -58,6 +58,8 @@ def sift_down(i: int, a_list : list):
     >>> sift_down(1, [3, 10, 4, 9, 8, 12, 7, 11, 9])
     [3, 8, 4, 9, 10, 12, 7, 11, 9]
     """
+    m = 0
+    sort_list = []
     while 2 * i + 1 < len(a_list):
         left = 2 * i + 1  # left — левый сын индекс
         right = 2 * i + 2  # right — правый сын индекс
@@ -66,8 +68,13 @@ def sift_down(i: int, a_list : list):
             j = right
         if a_list[i] <= a_list[j]:
             break
+        print('i, j', i, j)
+        sort_list.append([i, j])
         a_list[i], a_list[j] = a_list[j], a_list[i]
         i = j
+        m += 1
+    print('m', m)
+    print('sort_list', sort_list)
     return a_list
 
 
@@ -123,12 +130,44 @@ def insert(key:int, a_list:list):
     return a_list
 
 
-a_list = [1, 2, 3, 4, 5, 9, 8, 7, 6, 10]
-b_list = []
-b_list.append = a_list.pop()
-for i in a_list:
-    insert(i, b_list)
-print(b_list)
+def build_heap_slow(a_list_:list):
+    """
+    Функция построения кучи с первого элемента из массива.
+    :param a_list:
+    :return:
+    """
+    a_list = a_list_.copy()
+    b_list = []
+    b_list.append(a_list.pop())
+    for i in a_list:
+        insert(i, b_list)
+    return b_list
+
+
+def build_heap_fast(a_list_:list):
+    c_list = a_list_
+    for i in range(len(c_list), -1, -1):
+        sift_down(i, c_list)
+    return c_list
+
+
+def build_heap_fast_with_index(a_list_:list):
+    c_list = a_list_
+
+    for i in range(len(c_list), -1, -1):
+        sift_down(i, c_list)
+    return c_list
+
+a_list_ = [7, 6, 5, 4, 3, 2]
+
+def main_build_heap_slow(a_list_):
+    print(a_list_)
+    print(build_heap_slow(a_list_), '\n')
+
+
+def main_build_heap_fast(a_list_):
+    print(a_list_)
+    print(*build_heap_fast(a_list_))
 
 
 def main():
@@ -143,8 +182,9 @@ def main():
     sort_to_min_heap(n, a_list)
 
 
-# if __name__ == '__main__':
-#     import doctest
-#     doctest.testmod(verbose=True)
-#     # main()
-#     # test()
+if __name__ == '__main__':
+    # import doctest
+    # doctest.testmod(verbose=True)
+    # main_build_heap_slow(a_list_)
+    main_build_heap_fast(a_list_)
+    # main()
