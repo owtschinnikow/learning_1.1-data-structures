@@ -23,27 +23,8 @@ https://neerc.ifmo.ru/wiki/index.php?title=%D0%94%D0%B2%D0%BE%D0%B8%D1%87%D0%BD%
 
 import sys
 
-
-def sort_to_min_heap(n, a_list):
-    """
-    Функция сообщает количество перестановок необходимых для создания мин функции и сами перестановки
-    :return:
-    >>> sort_to_min_heap(5, [5, 4, 3, 2, 1])
-    3
-    1 4
-    0 1
-    1 3
-    >>> sort_to_min_heap(5, [1, 2, 3, 4, 5])
-    0
-    >>> sort_to_min_heap(6, [7, 6, 5, 4, 3, 2])
-    4
-    2 5
-    1 4
-    0 2
-    2 5
-    """
-    pass
-
+m = 0
+sort_list = []
 
 def sift_down(i: int, a_list : list):
     """
@@ -58,8 +39,8 @@ def sift_down(i: int, a_list : list):
     >>> sift_down(1, [3, 10, 4, 9, 8, 12, 7, 11, 9])
     [3, 8, 4, 9, 10, 12, 7, 11, 9]
     """
-    m = 0
-    sort_list = []
+    global m
+    global sort_list
     while 2 * i + 1 < len(a_list):
         left = 2 * i + 1  # left — левый сын индекс
         right = 2 * i + 2  # right — правый сын индекс
@@ -68,13 +49,13 @@ def sift_down(i: int, a_list : list):
             j = right
         if a_list[i] <= a_list[j]:
             break
-        print('i, j', i, j)
+        # print('i, j', i, j)
         sort_list.append([i, j])
         a_list[i], a_list[j] = a_list[j], a_list[i]
         i = j
         m += 1
-    print('m', m)
-    print('sort_list', sort_list)
+    # print('m', m)
+    # print('sort_list', sort_list)
     return a_list
 
 
@@ -168,6 +149,10 @@ def main_build_heap_slow(a_list_):
 def main_build_heap_fast(a_list_):
     print(a_list_)
     print(*build_heap_fast(a_list_))
+    print('m', m)
+    print(sort_list)
+    for i in sort_list:
+        print(*i)
 
 
 def main():
@@ -178,13 +163,16 @@ def main():
     reader = (line.split() for line in sys.stdin)
     n = int((next(reader))[0])
     a_list = [int(i) for i in (next(reader))]
-    print(n, a_list)
-    sort_to_min_heap(n, a_list)
+    build_heap_fast(a_list)
+    print(m)
+    for i in sort_list:
+        print(*i)
+
 
 
 if __name__ == '__main__':
     # import doctest
     # doctest.testmod(verbose=True)
     # main_build_heap_slow(a_list_)
-    main_build_heap_fast(a_list_)
-    # main()
+    # main_build_heap_fast(a_list_)
+    main()
