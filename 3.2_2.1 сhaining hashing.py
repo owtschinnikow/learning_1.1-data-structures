@@ -81,23 +81,34 @@ def main():
     reader = (line.split() for line in sys.stdin)
     size_spreadsheet = [int(i) for i in next(reader)]  # Size of spreadsheet
     number_of_variables = [int(i) for i in next(reader)]  # Количество команд
+    hash_table = [[]*i for i in range(*size_spreadsheet)]
     for number in range(*number_of_variables):
-        print(next(reader))
+        comand = next(reader)
 
-    print(to_ascii('world'))
+        if comand[0] == 'add':
+            hash_cell = made_hash(comand[1], size_spreadsheet)
+            if comand[1] not in hash_table[hash_cell - 1]:
+                hash_table[hash_cell - 1].append(comand[1])
+            # print('add', hash_table)
 
-    print(made_hash('world', size_spreadsheet))
-    print(made_hash('HellO', size_spreadsheet))
+        elif comand[0] == 'check':
+            hash_cell = made_hash(comand[1], size_spreadsheet)
+            if not hash_table[hash_cell - 1]:
+                print('check', hash_table[hash_cell - 1])
+            else:
+                print()
 
-"""
-    hash_key = 0
+        elif comand[0] == 'find':
+            hash_cell = made_hash(comand[1], size_spreadsheet)
+            if comand[1] not in hash_table[hash_cell - 1]:
+                print('no')
+            else:
+                print('yes')
 
-    for number, ascii in enumerate(to_ascii('world')):
-        print(number, ascii)
-        hash_key += ((ascii * (number_x ** number)) % number_p)
-        print(hash_key)
-    print((hash_key % number_p) % size_spreadsheet[0])
-"""
+        elif comand[0] == 'del':
+            hash_cell = made_hash(comand[1], size_spreadsheet)
+            if comand[1] in hash_table[hash_cell - 1]:
+                hash_table[hash_cell - 1].remove(comand[1])
 
 
 if __name__ == '__main__':
