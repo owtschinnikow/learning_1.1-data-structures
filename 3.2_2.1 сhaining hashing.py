@@ -92,9 +92,8 @@ def main():
             # print('add', hash_table)
 
         elif comand[0] == 'check':
-            hash_cell = made_hash(comand[1], size_spreadsheet)
-            if not hash_table[hash_cell - 1]:
-                print('check', hash_table[hash_cell - 1])
+            if hash_table[int(comand[1])- 1]:
+                print( *hash_table[int(comand[1]) - 1][::-1])
             else:
                 print()
 
