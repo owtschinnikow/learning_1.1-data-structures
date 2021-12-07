@@ -44,6 +44,9 @@ yes
 import sys
 
 
+number_p = 1000000007
+number_x = 263
+
 
 
 def to_ascii(text):
@@ -56,9 +59,23 @@ def to_ascii(text):
     return ascii_values
 
 
+def made_hash(text, size_spreadsheet):
+    """
+    Function made hash key wich size_spreadsheet for the text.
+    :param text:
+    :param size_spreadsheet:
+    :return:
+    """
+    hash_key = 0
+    for number, ascii in enumerate(to_ascii(text)):
+        hash_key += ((ascii * (number_x ** number)) % number_p)
+    return ((hash_key % number_p) % size_spreadsheet[0])
+
+
+
 def main():
     """
-    Функция обрабатывает ввод в программу, запускает нужные функции
+    Function processes the input to the program and runs the desired functions.
     :return:
     """
     reader = (line.split() for line in sys.stdin)
@@ -67,17 +84,20 @@ def main():
     for number in range(*number_of_variables):
         print(next(reader))
 
-        # comand = next(reader)
-        # if comand[0] == 'add':
-        #     phone_book[comand[1]] = comand[2]
-        # elif comand[0] == 'find':
-        #     print(phone_book.get(comand[1], 'not found'))
-        # elif comand[0] == 'del':
-        #     phone_book.pop(comand[1], 'not found')
-
     print(to_ascii('world'))
 
+    print(made_hash('world', size_spreadsheet))
+    print(made_hash('HellO', size_spreadsheet))
 
+"""
+    hash_key = 0
+
+    for number, ascii in enumerate(to_ascii('world')):
+        print(number, ascii)
+        hash_key += ((ascii * (number_x ** number)) % number_p)
+        print(hash_key)
+    print((hash_key % number_p) % size_spreadsheet[0])
+"""
 
 
 if __name__ == '__main__':
