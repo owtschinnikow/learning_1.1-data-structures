@@ -24,10 +24,10 @@ Sample Output 3:
 import sys
 
 
-"""
+
 number_p = 1000000007
 number_x = 263
-"""
+
 
 
 def to_ascii(text):
@@ -40,7 +40,7 @@ def to_ascii(text):
     return ascii_values
 
 
-def made_hash(text, size_spreadsheet):
+def made_hash(text):
     """
     Function made hash key wich size_spreadsheet for the text.
     :param text:
@@ -50,7 +50,7 @@ def made_hash(text, size_spreadsheet):
     hash_key = 0
     for number, ascii in enumerate(to_ascii(text)):
         hash_key += ((ascii * (number_x ** number)) % number_p)
-    return ((hash_key % number_p) % size_spreadsheet[0])
+    return (hash_key % number_p)
 
 
 
@@ -60,37 +60,16 @@ def main():
     :return:
     """
     reader = (line.split() for line in sys.stdin)
-    size_spreadsheet = [int(i) for i in next(reader)]  # Size of spreadsheet
-    number_of_variables = [int(i) for i in next(reader)]  # Количество команд
+    pattern = next(reader)[0]  # Pattern
+    text = next(reader)[0]  # Text
+    hash_pattern = made_hash(pattern)
 
-    """
-    hash_table = [[]*i for i in range(*size_spreadsheet)]
-    for number in range(*number_of_variables):
-        comand = next(reader)
+    for index, character in enumerate(text):
+        if index < len(text) - len(pattern)+1:
+            hash_pattern_in_text = made_hash(text[index : index + len(pattern)])
+            if hash_pattern == hash_pattern_in_text:
+                print(index, end=' ')
 
-        if comand[0] == 'add':
-            hash_cell = made_hash(comand[1], size_spreadsheet)
-            if comand[1] not in hash_table[hash_cell - 1]:
-                hash_table[hash_cell - 1].append(comand[1])
-
-        elif comand[0] == 'check':
-            if hash_table[int(comand[1])- 1]:
-                print( *hash_table[int(comand[1]) - 1][::-1])
-            else:
-                print()
-
-        elif comand[0] == 'find':
-            hash_cell = made_hash(comand[1], size_spreadsheet)
-            if comand[1] not in hash_table[hash_cell - 1]:
-                print('no')
-            else:
-                print('yes')
-
-        elif comand[0] == 'del':
-            hash_cell = made_hash(comand[1], size_spreadsheet)
-            if comand[1] in hash_table[hash_cell - 1]:
-                hash_table[hash_cell - 1].remove(comand[1])
-    """
 
 if __name__ == '__main__':
     # import doctest
